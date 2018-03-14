@@ -23,6 +23,12 @@ namespace MirrorSharp.Internal.Handlers {
         public char CommandId => CommandIds.SlowUpdate;
 
         public async Task ExecuteAsync(AsyncData data, WorkSession session, ICommandResultSender sender, CancellationToken cancellationToken) {
+            // No need to analyze (or compile) the code if it hasn't changed from the last slow update.
+            // E.g. Firefox sends two slow updates instead of one during the first load of a page.
+            if (!session.IsDirty) {
+                return;
+            }
+
             // Temporary suppression, need to figure out the best approach here.
             // ReSharper disable once HeapView.BoxingAllocation
             var diagnostics = (IReadOnlyList<Diagnostic>)await session.LanguageSession.GetDiagnosticsAsync(cancellationToken).ConfigureAwait(false);
@@ -34,6 +40,8 @@ namespace MirrorSharp.Internal.Handlers {
                     diagnostics = mutableDiagnostics;
                 }
                 await SendSlowUpdateAsync(diagnostics, session, extensionResult, sender, cancellationToken).ConfigureAwait(false);
+
+                session.CleanDirty();
             }
             finally {
                 (extensionResult as IDisposable)?.Dispose();

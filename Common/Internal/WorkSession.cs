@@ -31,6 +31,8 @@ namespace MirrorSharp.Internal {
                 _languageSession.Dispose();
             }
             _languageSession = null;
+
+            IsDirty = true;
         }
 
         private void Initialize() {
@@ -53,7 +55,10 @@ namespace MirrorSharp.Internal {
         IRoslynSession IWorkSession.Roslyn => Roslyn;
 
         [NotNull] public string GetText() => LanguageSession.GetText();
-        public void ReplaceText(string newText, int start = 0, [CanBeNull] int? length = null) => LanguageSession.ReplaceText(newText, start, length);
+        public void ReplaceText(string newText, int start = 0, [CanBeNull] int? length = null) {
+            LanguageSession.ReplaceText(newText, start, length);
+            IsDirty = true;
+        }
         public int CursorPosition { get; set; }
 
         [NotNull] public CurrentCompletion CurrentCompletion { get; } = new CurrentCompletion();
@@ -69,5 +74,8 @@ namespace MirrorSharp.Internal {
         }
 
         public void Dispose() => _languageSession?.Dispose();
+
+        public bool IsDirty { get; private set; } = true;
+        public void CleanDirty() => IsDirty = false;
     }
 }
