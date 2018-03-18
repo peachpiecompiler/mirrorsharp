@@ -75,7 +75,6 @@ namespace MirrorSharp.Internal {
 
         public void Dispose() => _languageSession?.Dispose();
 
-        public bool IsDirty { get; private set; } = true;
-        public void CleanDirty() => IsDirty = false;
+        public bool IsDirty { get; set; } = true;
     }
 }

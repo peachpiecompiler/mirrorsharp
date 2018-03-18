@@ -63,6 +63,9 @@ namespace MirrorSharp.Internal.Handlers {
                 throw new FormatException($"Option '{name}' was not recognized (to use {nameof(ISetOptionsFromClientExtension)}, make sure your option name starts with 'x-').");
             }
 
+            // Don't ignore the subsequent slow update if only the options were changed since the previous one
+            session.IsDirty = true;
+
             await SendOptionsEchoAsync(session, sender, cancellationToken).ConfigureAwait(false);
         }
 

@@ -41,7 +41,7 @@ namespace MirrorSharp.Internal.Handlers {
                 }
                 await SendSlowUpdateAsync(diagnostics, session, extensionResult, sender, cancellationToken).ConfigureAwait(false);
 
-                session.CleanDirty();
+                session.IsDirty = false;
             }
             finally {
                 (extensionResult as IDisposable)?.Dispose();
