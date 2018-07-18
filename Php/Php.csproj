@@ -4,7 +4,7 @@
   <PropertyGroup>
     <AssemblyName>MirrorSharp.Php</AssemblyName>
     <RootNamespace>MirrorSharp.Php</RootNamespace>
-    <TargetFrameworks>net46</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <VersionPrefix>0.9.2</VersionPrefix>
     <Description>MirrorSharp PHP support library, implemented using Peachpie. $(DescriptionSuffix)</Description>
     <PackageTags>PHP;Peachpie;CodeMirror</PackageTags>
