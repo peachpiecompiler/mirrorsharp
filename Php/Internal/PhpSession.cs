@@ -13,14 +13,18 @@ using Microsoft.CodeAnalysis.Text;
 using MirrorSharp.Internal.Abstraction;
 using MirrorSharp.Php.Advanced;
 using Pchp.CodeAnalysis;
+using System.IO;
 
 namespace MirrorSharp.Php.Internal {
     internal class PhpSession : ILanguageSessionInternal, IPhpSession {
         private const string AssemblyName = "app";
-        private const string ScriptFileName = "index.php";
 
         /// <summary>Helper base compilation object used to cache the parsed references.</summary>
         private static PhpCompilation CoreCompilation { get; }
+
+        private static string DummyCompilationPath => Environment.CurrentDirectory;
+
+        private static string DummyScriptPath => Path.Combine(DummyCompilationPath, "index.php");
 
         static PhpSession() {
             CoreCompilation = PhpCompilation.Create(
@@ -29,7 +33,7 @@ namespace MirrorSharp.Php.Internal {
                 references: MirrorSharpPhpOptions.AssemblyReferencePaths.Select(path => PeachpieRoslyn.MetadataReference.CreateFromFile(path)),
                 options: new PhpCompilationOptions(
                     outputKind: PeachpieRoslyn.OutputKind.ConsoleApplication,
-                    baseDirectory: Environment.CurrentDirectory,
+                    baseDirectory: DummyCompilationPath,
                     sdkDirectory: null
                 )
             );
@@ -45,7 +49,7 @@ namespace MirrorSharp.Php.Internal {
             _text = text;
             _options = options;
 
-            var syntaxTree = PhpSyntaxTree.ParseCode(text, PhpParseOptions.Default, PhpParseOptions.Default, ScriptFileName);
+            var syntaxTree = PhpSyntaxTree.ParseCode(text, PhpParseOptions.Default, PhpParseOptions.Default, DummyScriptPath);
             Compilation = (PhpCompilation)CoreCompilation.AddSyntaxTrees(syntaxTree);
 
             if (options.Debug == false) {
@@ -63,7 +67,7 @@ namespace MirrorSharp.Php.Internal {
             if (newText?.Length > 0)
                 _text = _text.Insert(start, newText);
 
-            var syntaxTree = PhpSyntaxTree.ParseCode(_text, PhpParseOptions.Default, PhpParseOptions.Default, ScriptFileName);
+            var syntaxTree = PhpSyntaxTree.ParseCode(_text, PhpParseOptions.Default, PhpParseOptions.Default, DummyScriptPath);
             Compilation = (PhpCompilation)Compilation.ReplaceSyntaxTree(Compilation.SyntaxTrees.Single(), syntaxTree);
         }
 
