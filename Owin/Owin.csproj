@@ -8,7 +8,7 @@
     <VersionPrefix>0.9.0</VersionPrefix>
     <Description>MirrorSharp OWIN server. $(DescriptionSuffix)</Description>
     <PackageTags>Roslyn;CodeMirror</PackageTags>
-    <DocumentationFile>$(OutDir)\MirrorSharp.Owin.xml</DocumentationFile>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

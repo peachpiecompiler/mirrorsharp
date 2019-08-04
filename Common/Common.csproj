@@ -31,7 +31,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <DocumentationFile>$(OutDir)\MirrorSharp.Common.xml</DocumentationFile>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net46' ">
