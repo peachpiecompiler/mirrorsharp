@@ -9,15 +9,16 @@
     <Description>MirrorSharp PHP support library, implemented using Peachpie. $(DescriptionSuffix)</Description>
     <PackageTags>PHP;Peachpie;CodeMirror</PackageTags>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PeachpieVersion Condition="'$(PeachpieVersion)' == ''">0.9.*</PeachpieVersion>
   </PropertyGroup>
-  
+
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Peachpie.CodeAnalysis" Version="0.9.0-*" />
-    <PackageReference Include="Peachpie.App" Version="0.9.0-*" />
+    <PackageReference Include="Peachpie.CodeAnalysis" Version="$(PeachpieVersion)" />
+    <PackageReference Include="Peachpie.App" Version="$(PeachpieVersion)" />
   </ItemGroup>
 
   <Target Name="ChangeAliasesOfStrongNameAssemblies" BeforeTargets="FindReferenceAssembliesForReferences;ResolveReferences">
