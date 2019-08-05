@@ -49,7 +49,8 @@ namespace MirrorSharp.Php.Internal {
             _text = text;
             _options = options;
 
-            var syntaxTree = PhpSyntaxTree.ParseCode(text, PhpParseOptions.Default, PhpParseOptions.Default, DummyScriptPath);
+            var code = PeachpieRoslyn.Text.SourceText.From(text);
+            var syntaxTree = PhpSyntaxTree.ParseCode(code, PhpParseOptions.Default, PhpParseOptions.Default, DummyScriptPath);
             Compilation = (PhpCompilation)CoreCompilation.AddSyntaxTrees(syntaxTree);
 
             if (options.Debug == false) {
@@ -67,7 +68,8 @@ namespace MirrorSharp.Php.Internal {
             if (newText?.Length > 0)
                 _text = _text.Insert(start, newText);
 
-            var syntaxTree = PhpSyntaxTree.ParseCode(_text, PhpParseOptions.Default, PhpParseOptions.Default, DummyScriptPath);
+            var code = PeachpieRoslyn.Text.SourceText.From(_text);
+            var syntaxTree = PhpSyntaxTree.ParseCode(code, PhpParseOptions.Default, PhpParseOptions.Default, DummyScriptPath);
             Compilation = (PhpCompilation)Compilation.ReplaceSyntaxTree(Compilation.SyntaxTrees.Single(), syntaxTree);
         }
 
